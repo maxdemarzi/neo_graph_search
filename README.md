@@ -10,20 +10,6 @@ Pre-Requisites
 * Select the "user_likes", "user_location", "friend_likes", "friend_location" permissions.
 * You will need Neo4j in order for your database.
 * You will need Redis in order to use Sidekiq for background jobs.
-* You will need Oniguruma installed (see http://www.geocities.jp/kosako3/oniguruma/ )
-
-Oniguruma
----------
-
-	wget http://www.geocities.jp/kosako3/oniguruma/archive/onig-5.9.3.tar.gz
-	tar -xvzf onig-5.9.3.tar.gz
-	mv onig-5.9.3 onig
-	cd onig
-	./configure
-	make
-	make check
-	
-
 
 Installation
 ----------------
