@@ -7,7 +7,8 @@ module Ngs
       cypher_string << "START "   + cypher_hash[:start].join(", ")
       cypher_string << " MATCH "  + cypher_hash[:match].join(" ") unless cypher_hash[:match].empty?
       cypher_string << " RETURN " + cypher_hash[:return].join(", ")
-      return cypher_string
+      params = cypher_hash[:params].empty? ? nil : cypher_hash[:params].inject {|a,h| a.merge(h)}
+      return [cypher_string, params].compact
     end
   end
   
@@ -26,7 +27,8 @@ module Ngs
   class Me < Treetop::Runtime::SyntaxNode
     def to_cypher
         return {:start => "me = node:people(uid:{me})", 
-                :return => "me"}
+                :return => "me",
+                :params => {"me" => @neoid}}
     end 
   end
 
@@ -34,7 +36,8 @@ module Ngs
     def to_cypher
         return {:start  => "me = node:people(uid:{me})", 
                 :match  => "me -[:friends]-> friends",
-                :return => "friends"}
+                :return => "friends",
+                :params => {"me" => @neoid}}
     end 
   end
 

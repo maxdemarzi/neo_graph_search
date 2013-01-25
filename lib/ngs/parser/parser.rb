@@ -21,8 +21,7 @@ module NGS
        # classes. If we don't do this we will end up with a *lot*
        # of essentially useless nodes
        self.clean_tree(tree)
-       puts "after clean"
-       puts tree.inspect
+
        # Convert the AST into an array representation of the input
        # structure and return it
        return tree.to_cypher
