@@ -1,0 +1,28 @@
+grammar Ngs
+
+rule expression
+  space? '(' body ')' space? <Expression>
+end
+
+rule body
+  (expression / me / friends / likes / space )* <Body>
+end
+
+rule me
+  "me" <Me>
+end
+
+rule friends
+  "friends" <Friends>
+end
+
+rule likes
+  "who like" <Likes>
+end
+
+
+rule space
+  [\s]+
+end
+
+end

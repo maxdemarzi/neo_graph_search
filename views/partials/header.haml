@@ -1,0 +1,43 @@
+.navbar.navbar-fixed-top
+  .navbar-inner
+    .container-fluid
+      %a.btn.btn-navbar{ "data-toggle".to_sym => "collapse", "data-target".to_sym => ".nav-collapse"}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.brand{:href => '/'} Neo Social
+      .nav-collapse
+        %ul.nav
+          %li
+            %a{:href => '/'}Home
+          -unless current_user.nil?
+            %li
+              %a{:href => "/user/#{current_user.uid}" } Profile
+            %li
+              %a{:href => "/user/#{current_user.uid}/likes"}Likes
+            %li
+              %a{:href => "/user/#{current_user.uid}/friends"}Friends
+            %li
+              %a{:href => "/user/#{current_user.uid}/visualization"}Visualization
+        %p.navbar-text.pull-right
+          -unless current_user.nil?
+            .btn-group.pull-right
+              %a.btn.dropdown-toggle{:'data-togle' => "dropdown", :href => "#"}
+                %i.icon-user
+                ="#{current_user.name}"
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  %a{:href => "/user/#{current_user.uid}" } Profile
+                %li
+                  %a{:href => "/user/#{current_user.uid}/likes"}Likes
+                %li
+                  %a{:href => "/user/#{current_user.uid}/friends"}Friends
+                %li
+                  %a{:href => "/user/#{current_user.uid}/visualization"}Visualization
+                %li.divider
+                %li
+                  %a{:href => "/logout" } Logout
+          -else
+            %a{:href => "/auth/facebook"}
+              %img{:src => "/images/facebook.png"}

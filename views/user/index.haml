@@ -1,0 +1,13 @@
+.container
+  .content
+    .row
+      %h2="Friends of #{@user.name}"
+    .row
+      %table{:class => "table table-striped"}
+        %tbody
+          - @friends.each do |friend|
+            %tr
+              %td
+                %a{:href => "/user/#{friend[0]}"}
+                  %img{:src => (friend[2] == "" ? "/images/icon_no_photo_80x80.png" : friend[2]) }
+                  =friend[1]

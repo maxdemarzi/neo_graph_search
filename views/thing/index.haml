@@ -1,0 +1,10 @@
+.container
+  .content
+    .row
+      %h2= "Things #{@user.name} Likes"
+      %table{:class => "table table-striped"}
+        - @things.each do |thing|
+          %tr
+            %td
+              %a{:href => "/thing/#{thing[0]}"}
+                =thing[1]

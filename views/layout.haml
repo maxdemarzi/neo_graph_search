@@ -1,0 +1,29 @@
+!!! 5
+%html{ :lang => "en"}
+  %head
+    %title= "Neo Graph Search"
+    /[if lt IE 9]
+      %script(src="http://html5shiv.googlecode.com/svn/trunk/html5.js")
+
+
+    %meta{ 'http-equiv' => "Content-Type", :content => "text/html; charset=UTF-8"}
+    %meta{ :content => "Example application connecting Neo4j and a social network", :name => "description" }
+    %meta{ :content => "Max De Marzi", :name => "author" }
+    %meta{ :content => "3 days", :name => "revisit-after" }
+
+    %link(rel="stylesheet" href="/bootstrap/css/bootstrap.css")
+    %link(rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css")
+    %link(rel="stylesheet" href="/css/style.css")
+
+  %body
+    %header
+      = haml  :'partials/header'
+    %section{:id => 'container'}
+      = yield
+    %footer
+      = haml  :'partials/footer'
+
+    %script{ :type => "text/javascript", :src =>"/js/jquery.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-alert.js"}
+    %script{ :type => "text/javascript", :src =>"/bootstrap/js/plugins/bootstrap-dropdown.js"}
+    %script{ :type => "text/javascript", :src =>"/js/app.js"}

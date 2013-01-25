@@ -1,0 +1,15 @@
+.container
+  .content
+    .row
+      .span9
+        .well
+          %img{:src => @user.image_url}
+          %h1=@user.name
+          %h2=@user.location
+          %h2
+            %a{:href => "/user/#{@user.uid}/friends"}
+              = "#{@friends_count} Friends"
+          %h2
+            %a{:href => "/user/#{@user.uid}/likes"}
+              = "#{@likes_count} Likes"
+      .span3

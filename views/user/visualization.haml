@@ -1,0 +1,8 @@
+.container
+  .content
+    .row
+      %img{:src => @user.image_url}
+      %h1= "Visualization of Friends for #{@user.name}"
+    .row
+      %script{ :type => "text/javascript", :src =>"/js/d3.v2.js"}
+      %script{ :type => "text/javascript", :src =>"/js/neochord.js"}
