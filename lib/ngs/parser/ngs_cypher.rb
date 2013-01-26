@@ -64,8 +64,7 @@ module Ngs
 
   class People < Treetop::Runtime::SyntaxNode
     def to_cypher
-        return {:start  => "people = node:people(\"name:*\")",
-                :return => "people"}
+        return {:return => "people"}
     end 
   end
 

@@ -6,7 +6,7 @@ class User
     @neo_id     = node["self"].split('/').last.to_i
     @uid        = node["data"]["uid"]
     @name       = node["data"]["name"]
-    @image_url  = node["data"]["img_url"]
+    @image_url  = node["data"]["image_url"]
     @location   = node["data"]["location"]
     @token      = node["data"]["token"]
   end

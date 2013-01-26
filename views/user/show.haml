@@ -3,7 +3,6 @@
     .row
       .span9
         .well
-          %img{:src => @user.image_url}
           %h1=@user.name
           %h2=@user.location
           %h2
@@ -12,4 +11,4 @@
           %h2
             %a{:href => "/user/#{@user.uid}/likes"}
               = "#{@likes_count} Likes"
-      .span3
+          %img{:src => "https://graph.facebook.com/#{@user.uid}/picture?type=large"}
