@@ -19,6 +19,7 @@ Installation
     sudo apt-get install redis-server or brew install redis or install redis manually
     rake neo4j:install['enterprise','1.9.M04']
     rake neo4j:start
+    rake neo4j:create
     export SESSION_SECRET=<your session secret>
     export FACEBOOK_APP_ID=<your facebook app id>
     export FACEBOOK_SECRET=<your facebook secret>
@@ -37,5 +38,6 @@ On Heroku
     heroku addons:add redistogo
     git push heroku master
     heroku ps:scale worker=1
+    heroku run rake neo4j:create
 
 See it running live at http://neographsearch.heroku.com

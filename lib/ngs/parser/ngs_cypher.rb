@@ -6,7 +6,7 @@ module Ngs
       cypher_string = ""
       cypher_string << "START "   + cypher_hash[:start].join(", ")
       cypher_string << " MATCH "  + cypher_hash[:match].join(", ") unless cypher_hash[:match].empty?
-      cypher_string << " RETURN " + cypher_hash[:return].join(", ")
+      cypher_string << " RETURN DISTINCT " + cypher_hash[:return].join(", ")
       params = cypher_hash[:params].empty? ? nil : cypher_hash[:params].inject {|a,h| a.merge(h)}
       return [cypher_string, params].compact
     end
@@ -49,16 +49,16 @@ module Ngs
 
   class LikeAnd < Treetop::Runtime::SyntaxNode
     def to_cypher
-        return {:start => "thing1 = node:things(name:{thing1}), thing2 = node:things(name:{thing2})",
+        return {:start => "thing1 = node:things({thing1}), thing2 = node:things({thing2})",
                 :match => "friends -[:likes]-> thing1, friends -[:likes]-> thing2",
-                :params => {"thing1" => self.elements[1].text_value, "thing2" => self.elements.last.text_value} }
+                :params => {"thing1" => "name: " + self.elements[1].text_value, "thing2" => "name: " + self.elements.last.text_value} }
     end 
   end
 
   class Thing < Treetop::Runtime::SyntaxNode
     def to_cypher
-        return {:start => "thing = node:things(name:{thing})",
-                :params => {"thing" => self.text_value} }
+        return {:start => "thing = node:things({thing})",
+                :params => {"thing" => "name: " + self.text_value } }
     end 
   end
 

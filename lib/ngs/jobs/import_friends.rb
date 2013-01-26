@@ -27,6 +27,13 @@ module Job
             end
             batch_result = $neo_server.batch *commands
 
+            # Add things to an index
+            commands = []
+            batch_result.each do |b|
+              commands << [:add_node_to_index, "things", "name",  b["body"]["data"]["name"], b["body"]["self"].split("/").last]
+            end
+            $neo_server.batch *commands
+
             # Connect the user to these things
             commands = []
             batch_result.each do |b|
