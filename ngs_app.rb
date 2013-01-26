@@ -71,7 +71,7 @@ $stdout.sync = true
     @user = user(params[:id])
     @q = params[:q] || "friends"
     @cypher = NGS::Parser.parse("(#{@q})")
-    @cypher[0] = @cypher[0] +  " , friends.uid, friends.name, friends.image_url"
+    @cypher[0] = @cypher[0] +  " , friends.uid, friends.name, friends.image_url LIMIT 100"
     @cypher[1].merge!({"me" => @user.neo_id})
     @friends = $neo_server.execute_query(@cypher[0].to_s, @cypher[1])["data"]
     haml :'user/search'
