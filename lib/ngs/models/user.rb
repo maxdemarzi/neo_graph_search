@@ -53,8 +53,9 @@ class User
                                            "image_url" => image_url,
                                            "uid"       => id
                                           })
-                                          
-    $neo_server.add_node_to_index("people", "name", name, node["self"].split('/').last.to_i )                                          
+    node_id = node["self"].split('/').last.to_i                                       
+    $neo_server.add_node_to_index("people", "name", name, node_id)                                          
+
     User.new(node)
   end
 

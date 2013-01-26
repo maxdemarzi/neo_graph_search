@@ -16,6 +16,20 @@ module Job
           commands << [:create_unique_relationship, "friends_index", "ids",  "#{person_id}-#{uid}", "friends", friend.neo_id, user.neo_id]
           batch_result = $neo_server.batch *commands
 
+          # Add their location
+          if person["location"]
+            loc_id = person["location"]["id"]
+            loc_name = person["location"]["name"]
+            loc = $neo_server.create_unique_node("location_index", "uid", loc_id,
+                                                  {"name"      => loc_name,
+                                                   "uid"       => loc_id
+                                                  })
+            loc_node_id = loc["self"].split('/').last.to_i
+            $neo_server.add_node_to_index("places", "name", loc_name, loc_node_id)                                          
+            $neo_server.create_unique_relationship("lives_index", "user_place","#{person_id}-#{loc_id}", "lives", friend.neo_id, loc_node_id)
+          end
+
+
           # Import friend likes
           likes = user.client.get_connections(person_id, "likes")
 

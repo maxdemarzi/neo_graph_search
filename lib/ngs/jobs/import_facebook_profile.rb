@@ -6,6 +6,21 @@ module Job
     def perform(uid)
       user = User.find_by_uid(uid)
       if user
+        profile = user.client.get_object("me")
+        
+        if profile["location"]
+          loc_id = profile["location"]["id"]
+          loc_name = profile["location"]["name"]
+          loc = $neo_server.create_unique_node("location_index", "uid", loc_id,
+                                                {"name"      => loc_name,
+                                                 "uid"       => loc_id
+                                                })
+          loc_node_id = loc["self"].split('/').last.to_i
+          $neo_server.add_node_to_index("places", "name", loc_name, loc_node_id)                                          
+          $neo_server.create_unique_relationship("lives_index", "user_place","#{profile["id"]}-#{loc_id}", "lives", user.neo_id, loc_node_id)
+          
+        end
+        
         likes = user.client.get_connections("me", "likes")
 
         if likes
