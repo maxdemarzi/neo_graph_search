@@ -70,10 +70,18 @@ $stdout.sync = true
   get '/user/:id/search' do
     @user = user(params[:id])
     @q = params[:q] || "friends"
-    @cypher = NGS::Parser.parse("(#{@q})")
-    @cypher[0] = @cypher[0] +  " , friends.uid, friends.name, friends.image_url LIMIT 100"
-    @cypher[1].merge!({"me" => @user.neo_id})
-    @friends = $neo_server.execute_query(@cypher[0].to_s, @cypher[1])["data"]
+    begin 
+      @cypher = NGS::Parser.parse("(#{@q})")
+      @cypher[0] = @cypher[0] +  " , people.uid, people.name, people.image_url LIMIT 100"
+      @cypher[1].merge!({"me" => @user.neo_id})
+      @people = $neo_server.execute_query(@cypher[0].to_s, @cypher[1])["data"]
+      @cypher[0].gsub!("MATCH", "<br>MATCH")
+      @cypher[0].gsub!("RETURN", "<br>RETURN")
+      @cypher[0].gsub!("LIMIT", "<br>RETURN")
+    rescue
+      @cypher = ["Sorry, I didn't understand, please try again.",nil]
+      @people = []
+    end
     haml :'user/search'
   end
 
