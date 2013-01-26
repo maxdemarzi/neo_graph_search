@@ -1,4 +1,11 @@
+require "sinatra/reloader"
+
 class App < Sinatra::Base
+$stdout.sync = true
+  configure :development do |config|
+      register Sinatra::Reloader
+      config.also_reload "lib/ngs/**/*.rb"
+    end
 
   use Rack::Session::Cookie , :secret => (ENV['SESSION_SECRET'] || "82e042cd6fde2bf1764f777236db799e")
 
@@ -59,6 +66,17 @@ class App < Sinatra::Base
     @things = @user.likes
     haml :'thing/index'
   end
+
+  get '/user/:id/search' do
+    @user = user(params[:id])
+    @q = params[:q] || "friends"
+    @cypher = NGS::Parser.parse("(#{@q})")
+    @cypher[0] = @cypher[0] +  " , friends.uid, friends.name, friends.image_url"
+    @cypher[1].merge!({"me" => @user.neo_id})
+    @friends = $neo_server.execute_query(@cypher[0].to_s, @cypher[1])["data"]
+    haml :'user/search'
+  end
+
 
   get '/user/:id/visualization' do
     @user = user(params[:id])

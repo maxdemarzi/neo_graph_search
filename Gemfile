@@ -6,7 +6,7 @@ gem 'thin'
 
 # Sinatra
 gem 'sinatra'
-#gem 'sinatra-contrib'
+gem 'sinatra-contrib'
 
 # Authentication
 gem 'omniauth'

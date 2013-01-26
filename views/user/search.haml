@@ -1,0 +1,27 @@
+.container
+  .content
+    .row
+      %h2="Graph Search"
+    .row
+      %form.form-search{:method => "get", :action => "/user/#{current_user.uid}/search"}
+        .input-append
+          %input.span5.search-query{:type => "text", :value => @q, :name => "q"}
+          %button.btn Search            
+    .row
+      %h2="Cypher"
+      Query: 
+      = @cypher[0]
+      %br
+      Parameters:
+      = @cypher[1]
+
+    .row
+      %table{:class => "table table-striped"}
+        %tbody
+          - @friends.each do |friend|
+            %tr
+              %td
+                %a{:href => "/user/#{friend[1]}"}
+                  %img{:src => (friend[3] == "" ? "/images/icon_no_photo_80x80.png" : friend[3]) }
+                  =friend[2]
+             

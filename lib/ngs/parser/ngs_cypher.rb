@@ -26,18 +26,18 @@ module Ngs
   
   class Me < Treetop::Runtime::SyntaxNode
     def to_cypher
-        return {:start => "me = node:people(uid:{me})", 
+        return {:start => "me = node({me})", 
                 :return => "me",
-                :params => {"me" => @neoid}}
+                :params => {"me" => nil }}
     end 
   end
 
   class Friends < Treetop::Runtime::SyntaxNode
     def to_cypher
-        return {:start  => "me = node:people(uid:{me})", 
+        return {:start  => "me = node({me})", 
                 :match  => "me -[:friends]-> friends",
                 :return => "friends",
-                :params => {"me" => @neoid}}
+                :params => {"me" => nil }}
     end 
   end
 
