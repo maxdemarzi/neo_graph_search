@@ -40,22 +40,16 @@ describe "NGS::Parser" do
         NGS::Parser.parse("(people who like cheese and crackers)").should == [cypher, params]
       end
 
-      it "can return people who like cyling and live in Florida" do
-        cypher = "START thing = node:things({thing}), place = node:places({place}) MATCH people -[:likes]-> thing1, people -[:lives]-> place RETURN DISTINCT people"
-        params = {"thing" => "name: cheese", "place" => "name: Florida"}
-        NGS::Parser.parse("(people who like cheese and live in Florida)").should == [cypher, params]
+      it "can return people who live in FLorida" do
+        cypher = "START place = node:places({place}) MATCH people -[:lives]-> place RETURN DISTINCT people"
+        params = {"place" => "name: Florida*"}
+        NGS::Parser.parse("(people who live in Florida)").should == [cypher, params]
       end
 
-# People who like Cycling 
-# People who like Cycling and are from my hometown
-# People who like Cycling and live in Seattle, Washington
-# Photos I like
-# Photos before 1990
-# Photos of my friends in New York
-# Music my friends like
-# Cities my family visited
-# Restaurants in London my friends have been to
-
-
+      it "can return people who like cyling and live in Florida" do
+        cypher = "START thing = node:things({thing}), place = node:places({place}) MATCH people -[:likes]-> thing, people -[:lives]-> place RETURN DISTINCT people"
+        params = {"thing" => "name: cycling", "place" => "name: Florida*"}
+        NGS::Parser.parse("(people who like cycling and live in Florida)").should == [cypher, params]
+      end
   end
 end

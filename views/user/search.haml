@@ -7,21 +7,41 @@
         .input-append
           %input.span5.search-query{:type => "text", :value => @q, :name => "q"}
           %button.btn Search           
-        Try "friends who like wine", "people who like wine and cheese" 
+        Try: 
+        %a{:href => "/user/#{current_user.uid}/search?q=friends+who+like+wine"}
+          friends who like wine
+        ,
+        %a{:href => "/user/#{current_user.uid}/search?q=people+who+like+wine+and+cheese"}
+          people who like wine and cheese
+        ,
+        %a{:href => "/user/#{current_user.uid}/search?q=people+who+like+cycling+and+live+in+Florida"}
+          people who like cycling and live in Florida
     .row
-      %h2="Cypher Query:"
-      = @cypher[0]
-      %br
-      Parameters:
-      = @cypher[1]
-
+      .span6
+        .well
+          %h2="Cypher Query:"
+          = @cypher[0]
+          %br
+          -if @cypher[1]
+            Parameters:
+            = @cypher[1]
+      .span6
+        .well
+          Want your own Graph Search?  Contact 
+          %a{:href => "http://maxdemarzi.com/about/"}
+            me
+          and learn more about
+          %a{:href => "http://neo4j.org"}
+            Neo4j
+          and
+          %a{:href => "http://neotechnology.com"}
+            NeoTechnology
     .row
-      %table{:class => "table table-striped"}
-        %tbody
-          - @people.each do |person|
-            %tr
-              %td
-                %a{:href => "/user/#{person[1]}"}
-                  %img{:src => (person[3] == "" ? "/images/icon_no_photo_80x80.png" : person[3]) }
-                  =person[2]
+      %ul.thumbnails
+        - @people.each do |person|
+          %li.span3
+            .thumbnail
+              %a{:href => "/user/#{person[1]}"}
+                %img{:src => (person[3] == "" ? "/images/icon_no_photo_80x80.png" : person[3] ) }
+                =person[2]
              

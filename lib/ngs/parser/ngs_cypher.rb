@@ -47,11 +47,27 @@ module Ngs
     end 
   end
 
+  class Lives < Treetop::Runtime::SyntaxNode
+    def to_cypher
+        return {:start => "place = node:places({place})",
+                :match => "people -[:lives]-> place",
+                :params => {"place" => "name: " + self.text_value.split("in").last.to_s.strip + "*" } }
+    end 
+  end
+
   class LikeAnd < Treetop::Runtime::SyntaxNode
     def to_cypher
         return {:start  => "thing1 = node:things({thing1}), thing2 = node:things({thing2})",
                 :match  => "people -[:likes]-> thing1, people -[:likes]-> thing2",
                 :params => {"thing1" => "name: " + self.elements[1].text_value, "thing2" => "name: " + self.elements.last.text_value} }
+    end 
+  end
+
+  class LikeAndLives < Treetop::Runtime::SyntaxNode
+    def to_cypher
+        return {:start  => "thing = node:things({thing}), place = node:places({place})",
+                :match  => "people -[:likes]-> thing, people -[:lives]-> place",
+                :params => {"thing" => "name: " + self.elements[1].text_value, "place" => "name: " + self.elements.last.text_value.split("in").last.to_s.strip + "*"} }
     end 
   end
 
@@ -64,7 +80,8 @@ module Ngs
 
   class People < Treetop::Runtime::SyntaxNode
     def to_cypher
-        return {:return => "people"}
+        return {#:start => "people = node:people(\"name:*\")",
+                :return => "people"}
     end 
   end
 

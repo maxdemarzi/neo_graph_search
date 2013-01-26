@@ -5,7 +5,7 @@ rule expression
 end
 
 rule body
-  (expression / me / (friends / people) / likeand / likes / thing / space )* <Body>
+  (expression / me / (friends / people) / likeandlives / likeand / likes / lives / thing / space )* <Body>
 end
 
 rule me
@@ -20,13 +20,26 @@ rule likes
   "who like" <Likes>
 end
 
+rule lives
+  ("who live in" / "live in" ) space place <Lives>
+end
+
 rule likeand
   likes space thing space "and" space thing <LikeAnd>
+end
+
+rule likeandlives
+  likes space thing space "and" space lives <LikeAndLives>
 end
 
 rule thing
   [a-zA-Z0-9]+ <Thing>
 end
+
+rule place
+  [a-zA-Z0-9]+
+end
+
 
 rule people
   "people" <People>

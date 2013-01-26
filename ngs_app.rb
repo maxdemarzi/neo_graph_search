@@ -4,7 +4,7 @@ class App < Sinatra::Base
 $stdout.sync = true
   configure :development do |config|
       register Sinatra::Reloader
-      config.also_reload "lib/ngs/**/*.rb"
+      config.also_reload "lib/ngs/**/*"
     end
 
   use Rack::Session::Cookie , :secret => (ENV['SESSION_SECRET'] || "82e042cd6fde2bf1764f777236db799e")
@@ -70,16 +70,17 @@ $stdout.sync = true
   get '/user/:id/search' do
     @user = user(params[:id])
     @q = params[:q] || "friends"
+    @q = "friends" if @q == "people"
     begin 
       @cypher = NGS::Parser.parse("(#{@q})")
       @cypher[0] = @cypher[0] +  " , people.uid, people.name, people.image_url LIMIT 100"
-      @cypher[1].merge!({"me" => @user.neo_id})
+      @cypher[1].merge!({"me" => @user.neo_id}) if @cypher[1].has_key?("me")
       @people = $neo_server.execute_query(@cypher[0].to_s, @cypher[1])["data"]
       @cypher[0].gsub!("MATCH", "<br>MATCH")
       @cypher[0].gsub!("RETURN", "<br>RETURN")
-      @cypher[0].gsub!("LIMIT", "<br>RETURN")
-    rescue
-      @cypher = ["Sorry, I didn't understand, please try again.",nil]
+      @cypher[0].gsub!("LIMIT", "<br>LIMIT")
+    rescue Exception => e
+      @cypher = ["Sorry, I didn't understand, please try a different search."]
       @people = []
     end
     haml :'user/search'
