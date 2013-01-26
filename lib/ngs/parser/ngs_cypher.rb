@@ -5,7 +5,7 @@ module Ngs
       cypher_hash =  self.elements[0].to_cypher
       cypher_string = ""
       cypher_string << "START "   + cypher_hash[:start].join(", ")
-      cypher_string << " MATCH "  + cypher_hash[:match].join(" ") unless cypher_hash[:match].empty?
+      cypher_string << " MATCH "  + cypher_hash[:match].join(", ") unless cypher_hash[:match].empty?
       cypher_string << " RETURN " + cypher_hash[:return].join(", ")
       params = cypher_hash[:params].empty? ? nil : cypher_hash[:params].inject {|a,h| a.merge(h)}
       return [cypher_string, params].compact
@@ -43,7 +43,15 @@ module Ngs
 
   class Likes < Treetop::Runtime::SyntaxNode
     def to_cypher
-        return {:match => "-[:likes]-> thing"}
+        return {:match => "friends -[:likes]-> thing"}
+    end 
+  end
+
+  class LikeAnd < Treetop::Runtime::SyntaxNode
+    def to_cypher
+        return {:start => "thing1 = node:things(name:{thing1}), thing2 = node:things(name:{thing2})",
+                :match => "friends -[:likes]-> thing1, friends -[:likes]-> thing2",
+                :params => {"thing1" => self.elements[1].text_value, "thing2" => self.elements.last.text_value} }
     end 
   end
 
@@ -51,6 +59,12 @@ module Ngs
     def to_cypher
         return {:start => "thing = node:things(name:{thing})",
                 :params => {"thing" => self.text_value} }
+    end 
+  end
+
+  class People < Treetop::Runtime::SyntaxNode
+    def to_cypher
+        return {:return => "friends"}
     end 
   end
 
