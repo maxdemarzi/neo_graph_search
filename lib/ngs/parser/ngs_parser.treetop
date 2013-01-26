@@ -25,7 +25,7 @@ rule likeand
 end
 
 rule thing
-  [a-zA-Z]+ <Thing>
+  [a-zA-Z0-9]+ <Thing>
 end
 
 rule people
