@@ -1,14 +1,14 @@
 require "sinatra/reloader"
 
 class App < Sinatra::Base
-$stdout.sync = true
+
   configure :development do |config|
       register Sinatra::Reloader
       config.also_reload "lib/ngs/**/*"
     end
 
   use Rack::Session::Cookie , :secret => (ENV['SESSION_SECRET'] || "82e042cd6fde2bf1764f777236db799e")
-
+  
   fields = ["id", "email-address", "first-name", "last-name", "headline", "industry", "picture-url", "public-profile-url", "location", "skills"]
 
   use OmniAuth::Builder do

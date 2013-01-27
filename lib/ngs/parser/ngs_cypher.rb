@@ -4,10 +4,10 @@ module Ngs
     def to_cypher
       cypher_hash =  self.elements[0].to_cypher
       cypher_string = ""
-      cypher_string << "START "   + cypher_hash[:start].join(", ")
-      cypher_string << " MATCH "  + cypher_hash[:match].join(", ") unless cypher_hash[:match].empty?
-      cypher_string << " RETURN DISTINCT " + cypher_hash[:return].join(", ")
-      params = cypher_hash[:params].empty? ? {} : cypher_hash[:params].inject {|a,h| a.merge(h)}
+      cypher_string << "START "   + cypher_hash[:start].uniq.join(", ")
+      cypher_string << " MATCH "  + cypher_hash[:match].uniq.join(", ") unless cypher_hash[:match].empty?
+      cypher_string << " RETURN DISTINCT " + cypher_hash[:return].uniq.join(", ")
+      params = cypher_hash[:params].empty? ? {} : cypher_hash[:params].uniq.inject {|a,h| a.merge(h)}
       return [cypher_string, params].compact
     end
   end

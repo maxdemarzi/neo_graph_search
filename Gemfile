@@ -21,6 +21,7 @@ gem 'koala'
 
 # Jobs
 gem 'sidekiq'
+gem 'sidekiq-failures'
 gem 'slim'
 gem 'sprockets'
 
