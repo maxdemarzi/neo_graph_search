@@ -50,7 +50,8 @@ module Job
         friends = user.client.get_connections("me", "friends")
         friends.each do |friend|
           Sidekiq::Client.enqueue(Job::ImportFriends, uid, friend["id"])
-          Job::ImportMutualFriends.perform_at(30, uid, friend["id"])
+         # Turning this off for now.
+        # Job::ImportMutualFriends.perform_at(30, uid, friend["id"])
         end
       end
     end
