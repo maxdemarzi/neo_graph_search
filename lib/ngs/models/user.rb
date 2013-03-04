@@ -31,7 +31,7 @@ class User
     if node
       neo_id = node["self"].split('/').last.to_i
       $neo_server.set_node_properties(neo_id, values)
-      Sidekiq::Client.enqueue(Job::ImportFacebookProfile, auth.uid)
+      Sidekiq::Client.enqueue(Job::ImportFacebookProfile, auth.uid) if auth.uid
       node = $neo_server.get_node(neo_id)
       $neo_server.add_node_to_index("people", "name", name, neo_id)                                          
 
