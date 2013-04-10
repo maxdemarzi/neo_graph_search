@@ -16,7 +16,7 @@ Installation
 ----------------
 
     git clone git@github.com:maxdemarzi/neo_graph_search.git
-    bundle install (run gem install bundler if you don't have bundler install)
+    bundle install (run gem install bundler if you don't have bundler installed)
     sudo apt-get install redis-server or brew install redis or install redis manually
     rake neo4j:install['enterprise','1.9.M04']
     rake neo4j:start
