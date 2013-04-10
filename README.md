@@ -16,12 +16,12 @@ Installation
 ----------------
 
     git clone git@github.com:maxdemarzi/neo_graph_search.git
-    bundle install
+    bundle install (run gem install bundler if you don't have bundler install)
     sudo apt-get install redis-server or brew install redis or install redis manually
     rake neo4j:install['enterprise','1.9.M04']
     rake neo4j:start
     rake neo4j:create
-    export SESSION_SECRET=<your session secret>
+    export SESSION_SECRET=<your session secret> (anything will do, or skip it)
     export FACEBOOK_APP_ID=<your facebook app id>
     export FACEBOOK_SECRET=<your facebook app secret>
     export REDISTOGO_URL="redis://127.0.0.1:6379/"
