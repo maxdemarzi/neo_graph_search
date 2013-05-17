@@ -41,4 +41,4 @@ On Heroku
     heroku ps:scale worker=1
     heroku run rake neo4j:create
 
-See it running live at http://neographsearch.heroku.com
+See it running live at http://neographsearch.maxdemarzi.com/
